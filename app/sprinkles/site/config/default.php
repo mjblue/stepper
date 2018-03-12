@@ -11,7 +11,8 @@
             ]
         ],
         'debug' => [
-            'smtp' => false
+            'smtp' => false,
+            'queries' => true
         ],
         'site' => [
             'author'    =>      'Aaron Hooper',

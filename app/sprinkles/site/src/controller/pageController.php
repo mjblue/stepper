@@ -12,15 +12,31 @@ use UserFrosting\Fortress\RequestSchema;
 use UserFrosting\Support\Exception\ForbiddenException;
 use UserFrosting\Sprinkle\Site\Database\Models\Step;
 use UserFrosting\Sprinkle\Core\Facades\Debug;
+use Carbon\Carbon;
 
 class PageController extends SimpleController
 {
     public function pageSteps($request, $response, $args)
     {
+        $currentUserId = $this->ci->currentUser;
+        Debug::debug($currentUserId);
+        var_dump();
         $allsteps = Step::all();
-        //Debug::debug($allsteps);
+        $recentSteps2 = Step::getMyRecentStepsEntries($this->ci->currentUser);
+        //$carbon = new Carbon();
+        //$startWeek = Carbon::parse('Sunday')->addWeeks(-1);
+       //$steps = User::where('date', '>=', 2)->get();
+        //$recentsteps = Step::where('date', '>=', "now() - interval 7 day")->get();
+        //$recentsteps = Step::where('user_id', $currentUserId->id)
+        //            ->where('date','<', $carbon )
+        //            ->where('date','>=', $startWeek )
+        //            ->get();
+        //$sql = "SELECT date,steps FROM step_entry where date < now()";
+        //$recentsteps = Step::query($sql)->get();
+        //Debug::debug($startWeek);
+        //Debug::debug($recentsteps);
         return $this->ci->view->render($response, 'pages/steps.html.twig', [
-            'steps' => $allsteps
+            'steps' => $recentSteps2
         ]);
     }
 
@@ -48,9 +64,6 @@ class PageController extends SimpleController
             /** @var UserFrosting\Config\Config $config */
             $config = $this->ci->config;
         
-            $id = $params['id'];
-            $steps = $params['steps'];
-            $date = $params['date'];
 
             Capsule::transaction( function() use ($classMapper, $data, $ms, $config, $currentUser) {
                 // Create the user
@@ -88,7 +101,9 @@ class PageController extends SimpleController
                 //        ]);
     
                 //$this->ci->mailer->send($message);
-    
+
+                $newtotal = Step::getMyRecentStepsTotal($currentUser->id);
+
                 $ms->addMessageTranslated('success', 'STEPS.CREATED', $data);
             });
     

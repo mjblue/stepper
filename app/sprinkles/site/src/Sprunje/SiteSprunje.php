@@ -15,7 +15,7 @@ class StepSprunje extends Sprunje
      */
     protected function baseQuery()
     {
-        $instance = new Owl();
+        $instance = new Step();
 
         // Alternatively, if you have defined a class mapping, you can use the classMapper:
         // $instance = $this->classMapper->createInstance('owl');
