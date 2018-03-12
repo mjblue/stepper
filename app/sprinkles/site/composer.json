@@ -1,0 +1,15 @@
+{
+    "name": "userfrosting/site",
+    "type": "userfrosting-sprinkle",
+    "description": "Site sprinkle for stepper.com.",
+    "license": "MIT",
+    "authors": [{
+        "name": "Mark Jones",
+        "homepage": "http://bluedixie.co.uk"
+    }],
+    "autoload": {
+        "psr-4": {
+            "UserFrosting\\Sprinkle\\Site\\": "src/"
+        }
+    }
+}

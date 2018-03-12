@@ -1,0 +1,113 @@
+{% extends 'pages/abstract/default.html.twig' %}
+
+{# Overrides blocks in head of base template #}
+{% block page_title %}Steps{% endblock %}
+
+{% block page_description %}The Step Analysis Page of Stepper.com.{% endblock %}
+
+{% block content %}
+
+<div class="wrapper">
+
+  <header class="main-header">
+    {% include "navigation/main-nav.html.twig" %}
+  </header>
+  <!-- Full Width Column -->
+  <div class="content-wrapper">
+    <div class="container">
+        <!-- Content Header (Page header) -->
+        {% block content_header %}
+        <section class="content-header">
+          <h1>{% block header_title %}{{ block('page_title') }}{% endblock %}</h1>
+          {% if block('page_description') is not empty %}<h1><small>{% block header_description %}{{ block('page_description') }}{% endblock %}</small></h1>{% endif %}
+          {% block breadcrumb %}
+            {% include 'navigation/breadcrumb.html.twig' with {page_title: block('page_title')} %}
+          {% endblock %}
+          <div id="alerts-page"></div>
+        </section>
+        {% endblock %}
+        <section class="content">
+            {% block body_matter %}
+            Welcome, {{ current_user.first_name }}!
+            This is where you can enter your steps total
+
+<form id="addsteps" action="{{site.uri.public}}/steps/add" method="post">
+  {% include "forms/csrf.html.twig" %}
+  <div class="form-group has-feedback">
+    <label>Date</label>
+    <input type="date" class="form-control" name="date">
+  </div>
+  <div class="form-group has-feedback">
+    <label>Steps</label>
+    <input type="integer" class="form-control" name="steps">
+    <input type="hidden" class="form-control" name="user_id" value = "{{ current_user.id }}">
+  </div>
+  <div class="row">
+    <div class="col-xs-4">
+      <button type="submit" class="btn btn-primary btn-block btn-flat">Submit Steps</button>
+    </div>
+  </div>
+</form>
+
+            {% endblock %}
+        </section>
+        <section class="content">
+            {% block body_steplist %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-primary">
+                <div class="box-header">
+                    <h3 class="box-title"><i class="fa fa-calendar fa-fw"></i> List of Step Entries for Week: Total {{current_user.weekly_total_steps}}</h3>
+                </div>
+                <div class="box-body">
+                    <table class="table table-bordered">
+                        <tr>
+                            <th>Date</th>
+                            <th>Steps</th>
+                            
+                        </tr>
+                        {% for stepentry in steps %}
+                            <tr>
+                                <td>{{stepentry.date}}</td>
+                                <td>{{stepentry.steps}}</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+        
+        {% block steps_total_cumulative %}
+            Your Total Lifetime Steps is {{current_user.cumulative_total_steps}}
+            {% endblock %}
+        </section>
+    </div>
+  </div>
+  <!-- /.content-wrapper -->
+
+  {% block footer %}
+    {% include "pages/partials/footer.html.twig" %}
+  {% endblock %}
+</div>
+<!-- ./wrapper -->
+
+{% endblock %}
+{% block scripts_page %}
+    <!-- Include validation rules 
+    <script>
+    {% include "pages/partials/page.js.twig" %}
+    </script> -->
+
+    <!-- Include form widgets JS
+    {{ assets.js('js/form-widgets') | raw }}
+    
+    {{ assets.js('js/pages/dashboard') | raw }} -->
+
+    <!-- Include page-specific JS -->
+    {{ assets.js('js/pages') | raw }}
+
+    
+{% endblock %}
+

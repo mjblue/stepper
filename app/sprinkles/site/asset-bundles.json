@@ -1,0 +1,16 @@
+{
+    "bundle": {
+        "js/pages": {
+            "scripts": [
+                "stepper/js/stepper.js"
+            ],
+            "options": {
+                "result": {
+                    "type": {
+                        "scripts": "plain"
+                    }
+                }
+            }
+        }
+    }
+}
